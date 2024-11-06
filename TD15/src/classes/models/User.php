@@ -39,6 +39,11 @@ class User
         $_SESSION['user']['role'] = $r;
     }
 
+    public static function isConnected() : bool
+    {
+        return isset($_SESSION['user']['id']);
+    }
+
     public function getEmail(): string
     {
         return $this->email;

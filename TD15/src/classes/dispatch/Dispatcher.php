@@ -9,6 +9,7 @@ use iutnc\deefy\action\connection\SignOutAction;
 use iutnc\deefy\action\connection\SignUpAction;
 use iutnc\deefy\action\DisplayPlaylistAction;
 use iutnc\deefy\db\Auth;
+use iutnc\deefy\models\User;
 
 class Dispatcher
 {
@@ -25,12 +26,10 @@ class Dispatcher
     {
         $res = "Bienvenue !";
 
-        if (Auth::isConnected()) {
 
+        if (User::isConnected()) {
             switch ($this->action) {
-                case 'sign-up':
-                    $res = (new SignUpAction())->execute();
-                    break;
+
                 case 'add-playlist':
                     $res = (new AddPlaylistAction())->execute();
                     break;
@@ -43,12 +42,14 @@ class Dispatcher
                 case 'sign-out':
                     $res = (new SignOutAction())->execute();
                     break;
+                case 'sign-up':
+                    $res = (new SignUpAction())->execute();
+                    break;
                 case 'sign-in':
                     $res = (new SigninAction())->execute();
                     break;
             }
-        }
-        else {
+        } else {
             $res = (new SigninAction())->execute();
         }
         $this->renderPage($res);
@@ -67,7 +68,18 @@ class Dispatcher
             </head>
             <body>
             end;
-        echo <<<end
+        if (!User::isConnected()) {
+            echo <<<end
+                <header>
+                    <nav>
+                    <h1>Deefy</h1>
+                </nav>
+                </header>
+                end;
+
+
+        } else {
+            echo <<<end
                 <header>
                     <nav>
                         <h1>Deefy</h1>
@@ -82,11 +94,12 @@ class Dispatcher
                         </ul>
                         </nav>
                     </header>
+                end;
+        }
+        echo <<<end
                     <div class="wrapper">
                         $html
                     </div>
-                end;
-        echo <<<end
             </body>
             </html>
             end;

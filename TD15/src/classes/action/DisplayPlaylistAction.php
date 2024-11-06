@@ -35,7 +35,7 @@ class DisplayPlaylistAction extends Action
             $idPlaylist = $_GET['idPlaylist'];
 
             if (User::getCurrentUser()->isAdmin()) {
-                $playlist = PlaylistService::getAllPlaylistWithId($idPlaylist);
+                $playlist = PlaylistService::getPlaylistWithId($idPlaylist);
             } else {
                 $playlist = PlaylistService::getPlaylistFromUser($idPlaylist, User::getCurrentUser());
             }

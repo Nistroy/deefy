@@ -1,15 +1,12 @@
 <?php
 
 namespace iutnc\deefy\action\connection;
+
 use iutnc\deefy\action\ConnexionAction;
+use iutnc\deefy\db\Auth;
 
 class SignUpAction extends ConnexionAction
 {
-
-    public function __construct()
-    {
-        parent::__construct("S'inscrire", "Se connecter", "?action=sign-in", false);
-    }
 
 
     function getConnection(): string
@@ -17,11 +14,11 @@ class SignUpAction extends ConnexionAction
         $res = "";
 
         $e = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-        $p1= $_POST['password'];
+        $p1 = $_POST['password'];
         $p2 = $_POST['passwd2'];
-        if($p1 === $p2){
-            $res = "<p>". \iutnc\deefy\db\Auth::register($e, $p1)."</p>";
-        }else{
+        if ($p1 === $p2) {
+            $res = "<p>" . Auth::register($e, $p1) . "</p>";
+        } else {
             $res = '<p>Mot de passe 1 et 2 différents</p>
                 <form method="post" action="?action=add-user">
                 <input type="email" name="email" placeholder="email" autofocus>

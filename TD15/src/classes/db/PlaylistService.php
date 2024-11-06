@@ -19,11 +19,17 @@ abstract class PlaylistService
         $bd = ConnectionFactory::makeConnection();
 
         $query = "SELECT p.nom as nom, p.id as id from user u inner join user2playlist u2 on u.id = u2.id_user
-                                        inner join playlist p on u2.id_pl = p.id
-                            where u.email like ?";
+                                        inner join playlist p on u2.id_pl = p.id";
+
+        if (!User::getCurrentUser()->isAdmin()) {
+            $query .= " where u.email like ?";
+        }
+
         $prep = $bd->prepare($query);
         $email = User::getCurrentUser()->getEmail();
-        $prep->bindParam(1, $email);
+        if (!User::getCurrentUser()->isAdmin()) {
+            $prep->bindParam(1, $email);
+        }
         $prep->execute();
 
         $tab = [];
@@ -185,7 +191,7 @@ abstract class PlaylistService
      * @return Playlist
      * @throws InvalidPropertyNameException
      */
-    public static function getAllPlaylistWithId(mixed $idPlaylist)
+    public static function getPlaylistWithId(int $idPlaylist): Playlist
     {
         $bd = ConnectionFactory::makeConnection();
         $query = "SELECT p.nom as nom, p.id as id from playlist p
