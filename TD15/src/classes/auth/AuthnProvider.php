@@ -70,4 +70,9 @@ class AuthnProvider{
         return $res;
     }
 
+    public static function isConnected(): bool
+    {
+        return isset($_SESSION['user']['id']);
+    }
+
 }
