@@ -1,6 +1,7 @@
 <?php
 namespace iutnc\deefy\action;
 use iutnc\deefy\audio\lists\Playlist as Playlist;
+use iutnc\deefy\exception\InvalidPropertyNameException;
 use iutnc\deefy\models\User;
 use iutnc\deefy\render\AudioListRenderer as AudioListRenderer;
 class AddPlaylistAction extends Action {
@@ -9,6 +10,9 @@ class AddPlaylistAction extends Action {
         parent::__construct();
     }
 
+    /**
+     * @throws InvalidPropertyNameException
+     */
     public function execute() : string{
         if($this->http_method == "GET"){    
             $res = <<<addP

@@ -3,6 +3,7 @@
 namespace iutnc\deefy\models;
 
 use iutnc\deefy\audio\lists\Playlist as Playlist;
+use iutnc\deefy\audio\tracks\PodcastTrack;
 use iutnc\deefy\db\PlaylistService;
 use PDO;
 
@@ -42,14 +43,14 @@ class User
         return $this->email;
     }
 
-    public function addPlaylist(Playlist $l): void
+    public function addPlaylist(Playlist $playList): void
     {
-        $_SESSION['user']['playlist'] = serialize($l);
-
         if (!isset($this->userPlaylists)) {
             $playlists = PlaylistService::getPlaylists();
             $this->userPlaylists = $playlists;
         }
+
+        $this->userPlaylists[] = $playList;
     }
 
     public function getPlaylists(): array
