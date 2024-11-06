@@ -2,13 +2,13 @@
 
 namespace iutnc\deefy\dispatch;
 
-use iutnc\deefy\action\AddUserAction;
 use iutnc\deefy\action\AddPlaylistAction;
 use iutnc\deefy\action\AddPodcasttrackAction;
-use iutnc\deefy\action\SigninAction;
+use iutnc\deefy\action\connection\SigninAction;
+use iutnc\deefy\action\connection\SignOutAction;
+use iutnc\deefy\action\connection\SignUpAction;
 use iutnc\deefy\action\DisplayPlaylistAction;
-use iutnc\deefy\action\SignOutAction;
-use iutnc\deefy\auth\AuthnProvider;
+use iutnc\deefy\db\Auth;
 
 class Dispatcher
 {
@@ -25,11 +25,11 @@ class Dispatcher
     {
         $res = "Bienvenue !";
 
-        if (AuthnProvider::isConnected()) {
+        if (Auth::isConnected()) {
 
             switch ($this->action) {
                 case 'sign-up':
-                    $res = (new AddUserAction())->execute();
+                    $res = (new SignUpAction())->execute();
                     break;
                 case 'add-playlist':
                     $res = (new AddPlaylistAction())->execute();

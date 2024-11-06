@@ -1,7 +1,9 @@
 <?php
 
-namespace iutnc\deefy\action;
-class AddUserAction extends ConnexionAction
+namespace iutnc\deefy\action\connection;
+use iutnc\deefy\action\ConnexionAction;
+
+class SignUpAction extends ConnexionAction
 {
 
     public function __construct()
@@ -18,7 +20,7 @@ class AddUserAction extends ConnexionAction
         $p1= $_POST['password'];
         $p2 = $_POST['passwd2'];
         if($p1 === $p2){
-            $res = "<p>".\iutnc\deefy\auth\AuthnProvider::register($e, $p1)."</p>";
+            $res = "<p>". \iutnc\deefy\db\Auth::register($e, $p1)."</p>";
         }else{
             $res = '<p>Mot de passe 1 et 2 différents</p>
                 <form method="post" action="?action=add-user">

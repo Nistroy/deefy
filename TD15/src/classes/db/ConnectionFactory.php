@@ -7,7 +7,8 @@ class ConnectionFactory{
     private static array $tab = [];
     public static ?PDO $bd = null;
 
-    public static function setConfig(String $file ){
+    public static function setConfig(String $file ): void
+    {
         self::$tab = parse_ini_file($file);
     }
 

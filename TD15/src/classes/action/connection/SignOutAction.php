@@ -1,6 +1,8 @@
 <?php
 
-namespace iutnc\deefy\action;
+namespace iutnc\deefy\action\connection;
+
+use iutnc\deefy\action\Action;
 
 class SignOutAction extends Action
 {

@@ -1,6 +1,7 @@
 <?php
 namespace iutnc\deefy\action;
 use iutnc\deefy\audio\lists\Playlist as Playlist;
+use iutnc\deefy\models\User;
 use iutnc\deefy\render\AudioListRenderer as AudioListRenderer;
 class AddPlaylistAction extends Action {
     
@@ -19,7 +20,7 @@ class AddPlaylistAction extends Action {
                 addP;
         }else{
             $l = new Playlist(filter_var($_POST['nom'], FILTER_SANITIZE_STRING), []);
-            $_SESSION['user']['playlist'] = serialize($l);
+            User::getCurrentUser()->addPlaylist($l);
             $r = new AudioListRenderer($l);
             $res= <<<addP
                 {$r->render()}

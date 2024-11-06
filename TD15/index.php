@@ -3,19 +3,12 @@ declare(strict_types=1);
 
 use iutnc\deefy\db\ConnectionFactory;
 use iutnc\deefy\dispatch\Dispatcher;
+use iutnc\deefy\models\User;
 
 require_once 'vendor/autoload.php';
 
 session_start();
-if(!isset($_SESSION['user'])){
-    $t = [
-        "email" =>"",
-        "age" =>0,
-        "genre" =>"",
-        "playlist" =>null
-    ];
-    $_SESSION['user'] = $t;
-}
+User::getCurrentUser();
 
 ConnectionFactory::setConfig('conf.ini');
 

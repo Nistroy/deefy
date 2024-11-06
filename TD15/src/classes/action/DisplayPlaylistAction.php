@@ -2,7 +2,7 @@
 namespace iutnc\deefy\action;
 use Exception;
 use iutnc\deefy\audio\lists\PlayList;
-use iutnc\deefy\auth\AuthnProvider;
+use iutnc\deefy\db\Auth;
 use iutnc\deefy\render\AudioListRenderer;
 
 class DisplayPlaylistAction extends Action {
@@ -16,7 +16,7 @@ class DisplayPlaylistAction extends Action {
      */
     public function execute() : string{
         if(isset($_GET['id'])){
-            if(AuthnProvider::checkAccess(intval($_GET['id']))){
+            if(Auth::checkAccess(intval($_GET['id']))){
                 $p = PlayList::find(intval($_GET['id']));
                 $r  = new AudioListRenderer($p);
                 $res = $r->render();
