@@ -32,6 +32,11 @@ class AuthnProvider{
         $prep->bindParam(1,$e);
         $prep->execute();
         $d = $prep->fetchall(PDO::FETCH_ASSOC);
+
+        if ((strlen($p) < $minimumLength)){
+            $res = "La taille du mot de passe est trop court";
+        }
+        
         if((strlen($p) >= $minimumLength)&&(sizeof($d)==0)){
             //hash the password
             $hash = password_hash($p, PASSWORD_DEFAULT,['cost'=>10]);
