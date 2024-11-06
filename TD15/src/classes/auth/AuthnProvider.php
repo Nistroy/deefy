@@ -5,6 +5,10 @@ use iutnc\deefy\db\ConnectionFactory;
 use iutnc\deefy\exception\AuthException as AuthException;
 use PDO;
 class AuthnProvider{
+    public static function isConnected():bool{
+        return isset($_SESSION['user']['id']);
+    }
+
 
     public static function authenticate(string $e, string $p):bool{
         $bd = ConnectionFactory::makeConnection();
@@ -64,5 +68,4 @@ class AuthnProvider{
         }
         return $res;
     }
-
 }
