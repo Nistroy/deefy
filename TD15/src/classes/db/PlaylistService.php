@@ -149,4 +149,56 @@ abstract class PlaylistService
         User::getCurrentUser()->addPlaylist($playlist);
     }
 
+
+    /**
+     * @throws InvalidPropertyNameException
+     */
+    public static function getPlaylistsWithName(string $nomPlaylist): array
+    {
+        $bd = ConnectionFactory::makeConnection();
+        $query = "SELECT p.nom as nom, p.id as id from user u inner join user2playlist u2 on u.id = u2.id_user
+                                        inner join playlist p on u2.id_pl = p.id
+                            where u.email like ? and p.nom like ?";
+
+        $prep = $bd->prepare($query);
+        $email = User::getCurrentUser()->getEmail();
+        $prep->bindParam(1, $email);
+
+        $nomPlaylist = '%' . $nomPlaylist . '%';
+        $prep->bindParam(2, $nomPlaylist);
+        $prep->execute();
+
+        $data = $prep->fetchAll(PDO::FETCH_ASSOC);
+        $tab = [];
+        foreach ($data as $d) {
+            $playlist = new Playlist($d['id'], $d['nom'], []);
+            $playlist->setTracks(self::getTracks($playlist));
+            $tab[] = $playlist;
+        }
+
+        return $tab;
+    }
+
+    /**
+     * Méthode pour l'admin
+     * @param mixed $idPlaylist
+     * @return Playlist
+     * @throws InvalidPropertyNameException
+     */
+    public static function getAllPlaylistWithId(mixed $idPlaylist)
+    {
+        $bd = ConnectionFactory::makeConnection();
+        $query = "SELECT p.nom as nom, p.id as id from playlist p
+                            where p.id = ?";
+
+        $prep = $bd->prepare($query);
+        $prep->bindParam(1, $idPlaylist);
+        $prep->execute();
+
+        $data = $prep->fetch(PDO::FETCH_ASSOC);
+        $playlist = new Playlist($data['id'], $data['nom'], []);
+        $playlist->setTracks(self::getTracks($playlist));
+
+        return $playlist;
+    }
 }
