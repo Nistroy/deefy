@@ -11,6 +11,7 @@ use iutnc\deefy\exception\InvalidPropertyNameException as InvalidPropertyValueEx
 
 class AudioTrack
 {
+    private int $id;
     protected string $titre;
     protected string $artiste;
     protected string $annee;
@@ -18,8 +19,9 @@ class AudioTrack
     protected int $duree;
     protected string $nomFichier;
 
-    public function __construct(string $nom, string $chemin)
+    public function __construct(int $id, string $nom, string $chemin)
     {
+        $this->id = $id;
         $this->titre = $nom;
         $this->nomFichier = $chemin;
         $this->artiste = '';
@@ -30,7 +32,7 @@ class AudioTrack
 
     public function __toString(): string
     {
-        return ("<p>$this->titre | $this->artiste<p><audio controls src=$this->nomFichier>");
+        return "<p>$this->titre $this->artiste<p><audio controls src=$this->nomFichier>";
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace iutnc\deefy\action;
 use iutnc\deefy\audio\lists\Playlist as Playlist;
+use iutnc\deefy\db\PlaylistService;
 use iutnc\deefy\exception\InvalidPropertyNameException;
 use iutnc\deefy\models\User;
 use iutnc\deefy\render\AudioListRenderer as AudioListRenderer;
@@ -22,8 +23,8 @@ class AddPlaylistAction extends Action {
                 </form>
                 addP;
         }else{
-            $l = new Playlist(filter_var($_POST['nom'], FILTER_UNSAFE_RAW), []);
-            User::getCurrentUser()->addPlaylist($l);
+            $l = new Playlist(1, filter_var($_POST['nom'], FILTER_UNSAFE_RAW), []);
+            PlaylistService::addPlaylist($l);
             $r = new AudioListRenderer($l);
             $res= <<<addP
                 {$r->render()}

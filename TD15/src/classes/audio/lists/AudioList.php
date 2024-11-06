@@ -10,13 +10,15 @@ use iutnc\deefy\exception\InvalidPropertyNameException as InvalidPropertyNameExc
 
 class AudioList
 {
+    protected int $id;
     protected string $nom;
     protected int $nbPiste;
     protected int $dureeTotale;
     protected iterable $list;
 
-    public function __construct(string $nom, iterable $audios = [])
+    public function __construct(int $id,  string $nom, iterable $audios = [])
     {
+        $this->id = $id;
         $this->nom = $nom;
         $this->list = $audios;
         $this->dureeTotale = 0;
@@ -31,7 +33,7 @@ class AudioList
     /**
      * @throws InvalidPropertyNameException
      */
-    public function __get(string $arg): mixed
+    public function &__get(string $arg): mixed
     {
         if (!property_exists($this, $arg)) {
             throw new InvalidPropertyNameException("$arg: invalid property");
@@ -40,20 +42,15 @@ class AudioList
         return $this->$arg;
     }
 
-    public function addAudio(AudioTrack $audio): void
+    /**
+     * @throws InvalidPropertyNameException
+     */
+    public function __set(string $arg1, mixed $arg2): void
     {
-        $this->list[] = $audio;
-        $this->nbPiste++;
-        $this->dureeTotale += $audio->duree;
-    }
-
-    public function deleteAudio(AudioTrack $audio): void
-    {
-        $key = array_search($audio, $this->list);
-        if ($key !== false) {
-            unset($this->list[$key]);
-            $this->nbPiste--;
-            $this->dureeTotale -= $audio->duree;
+        if (!property_exists($this, $arg1)) {
+            throw new InvalidPropertyNameException("$arg1: invalid property");
         }
+
+        $this->$arg1 = $arg2;
     }
 }

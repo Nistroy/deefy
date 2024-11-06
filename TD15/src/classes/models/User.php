@@ -5,6 +5,7 @@ namespace iutnc\deefy\models;
 use iutnc\deefy\audio\lists\Playlist as Playlist;
 use iutnc\deefy\audio\tracks\PodcastTrack;
 use iutnc\deefy\db\PlaylistService;
+use iutnc\deefy\exception\InvalidPropertyNameException;
 use PDO;
 
 class User
@@ -43,6 +44,9 @@ class User
         return $this->email;
     }
 
+    /**
+     * @throws InvalidPropertyNameException
+     */
     public function addPlaylist(Playlist $playList): void
     {
         if (!isset($this->userPlaylists)) {
@@ -51,6 +55,7 @@ class User
         }
 
         $this->userPlaylists[] = $playList;
+        $_SESSION['user']['playlist'] = serialize($playList);
     }
 
     public function getPlaylists(): array
@@ -61,6 +66,11 @@ class User
             $_SESSION['user']['playlists'] = serialize($playlists);
         }
         return $this->userPlaylists;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function isAdmin(): bool
