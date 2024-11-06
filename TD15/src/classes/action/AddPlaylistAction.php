@@ -10,7 +10,6 @@ class AddPlaylistAction extends Action {
     }
 
     public function execute() : string{
-        $res = "";
         if($this->http_method == "GET"){    
             $res = <<<addP
                 <form method="post" action="?action=add-playlist">
@@ -19,7 +18,7 @@ class AddPlaylistAction extends Action {
                 </form>
                 addP;
         }else{
-            $l = new Playlist(filter_var($_POST['nom'], FILTER_SANITIZE_STRING), []);
+            $l = new Playlist(filter_var($_POST['nom'], FILTER_UNSAFE_RAW), []);
             User::getCurrentUser()->addPlaylist($l);
             $r = new AudioListRenderer($l);
             $res= <<<addP

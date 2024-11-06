@@ -19,19 +19,23 @@ class Auth
         $query = "select * from User where email = ? ";
         $prep = $bd->prepare($query);
         $prep->bindParam(1, $e);
-        $bool = $prep->execute();
-        $data = $prep->fetch(PDO::FETCH_ASSOC);
+        $canConnect = $prep->execute();
 
-        if (sizeof($data) == 0 && $bool) {
+        if (!$canConnect) {
+            throw new AuthException("Erreur de connexion");
+        }
+
+        $userData = $prep->fetchall(PDO::FETCH_ASSOC);
+
+        if (sizeof($userData) == 0) {
             throw new AuthException("Utilisateur inconnu");
         }
 
-        $hash = $data['passwd'];
-        if (!password_verify($p, $hash) && $bool) {
-            throw new AuthException("Mot de passe Incorrect");
+        if (!password_verify($p, $userData[0]['passwd'])) {
+            throw new AuthException("Mot de passe incorrect");
         }
 
-        $_SESSION['user'] = $data;
+        $_SESSION['user'] = $userData[0];
 
         return true;
     }
