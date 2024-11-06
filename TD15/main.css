@@ -105,3 +105,39 @@ p{
     border-radius: 1em;
     background-color: lightgray;
 }
+
+audio{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 40px;
+    background: linear-gradient(to bottom, white, lightgrey);
+}
+
+h4 {
+    margin: 0;
+    padding: 0;
+}
+
+hr.dashed {
+    border-top: 3px dashed #bbb;
+}
+
+/* Dotted border */
+hr.dotted {
+    border-top: 3px dotted #bbb;
+}
+
+/* Solid border */
+hr.solid {
+    border-top: 3px solid #bbb;
+}
+
+/* Rounded border */
+hr.rounded {
+    border-top: 8px solid #bbb;
+    border-radius: 5px;
+}

@@ -32,7 +32,8 @@ class AudioTrack
 
     public function __toString(): string
     {
-        return "<p>$this->titre $this->artiste<p><audio controls src=$this->nomFichier>";
+        return "<div><h4>Titre: $this->titre</h4> <h4>Artiste: $this->artiste</h4>
+            <audio controls src=$this->nomFichier></audio></div>";
     }
 
     /**

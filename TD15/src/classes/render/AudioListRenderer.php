@@ -33,6 +33,7 @@ class AudioListRenderer implements Renderer
         $res = '<h2>' . "Nom de la Playlist : " . $this->list->__get("nom") . '</h2>';
         foreach ($this->list->list as $value) {
             $res .= $value->__toString();
+            $res .= "<hr>";
         }
 
         return $res .
