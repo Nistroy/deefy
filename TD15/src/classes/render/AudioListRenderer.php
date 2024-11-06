@@ -23,13 +23,20 @@ class AudioListRenderer implements Renderer
      */
     public function render(int $selector = 0): string
     {
-        $res = '<h2>' . $this->list->__get("nom") . '</h2>';
+        $nbpiste = 0;
+        $dureeTotale = 0;
+        foreach ($this->list->list as $audio) {
+            $dureeTotale += $audio->duree;
+            ++$nbpiste;
+        }
+
+        $res = '<h2>' . "Nom de la Playlist : " . $this->list->__get("nom") . '</h2>';
         foreach ($this->list->list as $value) {
-            $res = $res . $value->__toString();
+            $res .= $value->__toString();
         }
 
         return $res .
-                "<h4>Durée totale : {$this->list->__get("dureeTotale")}</h4> 
-                <h4>Nombre de pistes : {$this->list->__get("nbPiste")}</h4>";
+            "<h4>Durée totale : {$dureeTotale}</h4>
+            <h4>Nombre de pistes : {$nbpiste}</h4>";
     }
 }
